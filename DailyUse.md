@@ -91,6 +91,50 @@ ls -l ~/.config/niri/config.kdl
                     ssh_only = false
                     format = "at [$hostname]($style) "
                     ```
+### Wifi
+- `niri`中使用`NetworkManager(nmcli)`連線
+    - 預設會記住連過的wifi
+    - 連線
+        ```bash
+        # 掃描
+        nmcli device wifi rescan
+        nmcli device wifi list
+        
+        # 連接
+        nmcli device wifi connect "名稱" password "密碼" # 用名稱
+        nmcli device wifi connect <wifi的SSID> password "密碼" # 用SSID
+        ```
+    - 列出記住的連線
+        ```bash
+        nmcli connection show
+        ```
+    - 中斷wifi連接
+        ```bash
+        # 找出連接中的裝置
+        nmcli device
+        ## 會列出
+        ## DEVICE    TYPE STATE     CONNECTION
+        ## <網卡名稱> wifi connected <名稱>
+        ## 假設網卡名稱是"wlp1s0"
+
+        # 中斷
+        nmcli device disconnect wlp1s0
+        ```
+    - 開關wifi
+        ```bash
+        nmcli radio wifi off # 關
+        nmcli radio wifi on # 開
+        ```
+    - 重新連接記住的wifi
+        無論wifi/行動數據熱點分享/手機eSIM分享都一樣
+        ```bash
+        # 列出來
+        nmcli connection show
+
+        # 連接
+        nmcli connection up "名稱" # 使用名稱
+        nmcli connection up uuid <對應的UUID> # 使用UUID
+        ```
 ### 狀態列
 - 常用`Waybar`
     1. 安裝
